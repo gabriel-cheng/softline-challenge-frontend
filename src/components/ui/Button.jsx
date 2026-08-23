@@ -7,12 +7,12 @@ const VARIANTS = {
     'border-danger/40 text-danger bg-danger-soft hover:bg-danger/20 focus-visible:outline-danger',
   ghost:
     'border-hairline text-text-muted bg-transparent hover:text-text-primary hover:border-text-faint focus-visible:outline-text-muted',
-}
+};
 
 const SIZES = {
   sm: 'px-3 py-1 text-xs',
   md: 'px-4 py-2 text-sm',
-}
+};
 
 export function Button({
   variant = 'primary',
@@ -39,5 +39,5 @@ export function Button({
       )}
       {children}
     </button>
-  )
+  );
 }

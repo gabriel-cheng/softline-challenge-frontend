@@ -16,5 +16,5 @@ export function Input({ label, id, error, className = '', ...props }) {
       />
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}
     </div>
-  )
+  );
 }

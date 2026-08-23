@@ -1,8 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { fetchCurrentUser, login as apiLogin, logout as apiLogout } from '../api/auth'
-import { AUTH_EVENT } from '../api/client'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { fetchCurrentUser, login as apiLogin, logout as apiLogout } from '../api/auth';
+import { AUTH_EVENT } from '../api/client';
 
-const AuthContext = createContext(null)
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
       setUser(null)
       setStatus('unauthenticated')
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     checkSession()
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
     }
     window.addEventListener(AUTH_EVENT, handleUnauthorized)
     return () => window.removeEventListener(AUTH_EVENT, handleUnauthorized)
-  }, [])
+  }, []);
 
   async function login(username, password) {
     await apiLogin(username, password)
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider value={{ user, status, login, logout, refresh: checkSession }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export function useAuth() {

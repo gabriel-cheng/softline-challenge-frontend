@@ -1,6 +1,6 @@
-import { TableRow, TableCell } from '../table/Table'
-import { Button } from '../ui/Button'
-import { ProductCodeChip } from './ProductCodeChip'
+import { TableRow, TableCell } from '../table/Table';
+import { Button } from '../ui/Button';
+import { ProductCodeChip } from './ProductCodeChip';
 
 export function ProductRow({ product, onEdit, onDelete, isDeleting }) {
   return (
@@ -31,5 +31,5 @@ export function ProductRow({ product, onEdit, onDelete, isDeleting }) {
         </div>
       </TableCell>
     </TableRow>
-  )
+  );
 }

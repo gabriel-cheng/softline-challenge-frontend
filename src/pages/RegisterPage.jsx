@@ -1,36 +1,37 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
+import { registerUser } from '../api/users';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { LiveIndicator } from '../components/ui/LiveIndicator';
-import { Link } from 'react-router-dom';
 
-export function LoginPage() {
-  const { login } = useAuth();
+export function RegisterPage() {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [username, setUsername] = useState(location.state?.prefillUsername ?? '')
+  const [username, setUsername] = useState('');
   const [password, setPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-
-  const redirectTo = location.state?.from?.pathname ?? '/';
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError(null);
-    setSubmitting(true);
 
+    if (password !== confirmPass) {
+      setError('As senhas não combinam.')
+      return
+    }
+
+    setSubmitting(true);
     try {
-      await login(username, password);
-      navigate(redirectTo, { replace: true });
+      await registerUser(username, password);
+      navigate('/login', { state: { prefillUsername: username } });
     } catch (err) {
-      if (err.response?.status === 401) {
-        setError('Invalid username or password.');
+      if (err.response?.status === 409) {
+        setError('Este nome de usuário já está em uso, por favor tente outro.');
       } else {
-        setError("Couldn't sign in. Please try again.");
+        setError("Não foi possível criar uma conta. Por favor, tente novamente!");
       }
     } finally {
       setSubmitting(false);
@@ -42,7 +43,7 @@ export function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-6 flex items-center justify-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Sign in
+            Criar uma conta
           </h1>
           <LiveIndicator label="secure" />
         </div>
@@ -68,9 +69,20 @@ export function LoginPage() {
               id="password"
               label="Password"
               type="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPass(e.target.value)}
+              disabled={submitting}
+              required
+            />
+
+            <Input
+              id="confirmPass"
+              label="Confirmar senha"
+              type="password"
+              autoComplete="new-password"
+              value={confirmPass}
+              onChange={(e) => setConfirmPass(e.target.value)}
               disabled={submitting}
               required
             />
@@ -89,13 +101,13 @@ export function LoginPage() {
             loading={submitting}
             className="mt-5 w-full"
           >
-            sign in
+            Criar conta
           </Button>
 
           <p className="mt-4 text-center text-xs text-text-faint">
-            Não tem uma conta?{' '}
-            <Link to="/register" className="text-accent hover:underline">
-              Crie uma
+            Já tem uma conta?{' '}
+            <Link to="/login" className="text-accent hover:underline">
+              Conectar-se
             </Link>
           </p>
         </form>

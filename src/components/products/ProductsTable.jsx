@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { useProducts } from '../../hooks/useProducts'
-import { Table, TableHead, TableHeaderCell, TableBody } from '../table/Table'
-import { TableSkeleton } from '../ui/TableSkeleton'
-import { EmptyState } from '../ui/EmptyState'
-import { ConfirmDialog } from '../ui/ConfirmDialog'
-import { Button } from '../ui/Button'
-import { LiveIndicator } from '../ui/LiveIndicator'
-import { ProductRow } from './ProductRow'
+import { useState } from 'react';
+import { useProducts } from '../../hooks/useProducts';
+import { Table, TableHead, TableHeaderCell, TableBody } from '../table/Table';
+import { TableSkeleton } from '../ui/TableSkeleton';
+import { EmptyState } from '../ui/EmptyState';
+import { ConfirmDialog } from '../ui/ConfirmDialog';
+import { Button } from '../ui/Button';
+import { LiveIndicator } from '../ui/LiveIndicator';
+import { ProductRow } from './ProductRow';
 
-const COLUMNS = ['code', 'description', 'bar code', 'gross weight', 'net weight', 'actions']
+const COLUMNS = ['code', 'description', 'bar code', 'gross weight', 'net weight', 'actions'];
 
 export function ProductsTable({ onCreate, onEdit }) {
-  const { products, status, error, deletingCode, refetch, removeProduct } = useProducts()
-  const [pendingDelete, setPendingDelete] = useState(null)
+  const { products, status, error, deletingCode, refetch, removeProduct } = useProducts();
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   async function handleConfirmDelete() {
     await removeProduct(pendingDelete.code)
@@ -98,5 +98,5 @@ export function ProductsTable({ onCreate, onEdit }) {
         onCancel={() => setPendingDelete(null)}
       />
     </section>
-  )
+  );
 }

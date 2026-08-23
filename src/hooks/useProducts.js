@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
-import { deleteProduct, fetchProducts } from '../api/products'
+import { useCallback, useEffect, useState } from 'react';
+import { deleteProduct, fetchProducts } from '../api/products';
 
 export function useProducts() {
-  const [products, setProducts] = useState([])
-  const [status, setStatus] = useState('loading')
-  const [error, setError] = useState(null)
-  const [deletingCode, setDeletingCode] = useState(null)
+  const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState('loading');
+  const [error, setError] = useState(null);
+  const [deletingCode, setDeletingCode] = useState(null);
 
   const load = useCallback(async () => {
     setStatus((current) => (current === 'ready' ? 'ready' : 'loading'))
@@ -18,7 +18,7 @@ export function useProducts() {
       setError(err)
       setStatus('error')
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     load()
@@ -42,7 +42,7 @@ export function useProducts() {
     } finally {
       setDeletingCode(null)
     }
-  }, [])
+  }, []);
 
   return {
     products,

@@ -3,7 +3,7 @@ export function Table({ children }) {
     <div className="overflow-x-auto rounded-lg border border-hairline">
       <table className="w-full border-collapse text-left text-sm">{children}</table>
     </div>
-  )
+  );
 }
 
 export function TableHead({ children }) {
@@ -11,7 +11,7 @@ export function TableHead({ children }) {
     <thead className="bg-panel-raised">
       <tr>{children}</tr>
     </thead>
-  )
+  );
 }
 
 export function TableHeaderCell({ children, align = 'left' }) {
@@ -22,7 +22,7 @@ export function TableHeaderCell({ children, align = 'left' }) {
     >
       {children}
     </th>
-  )
+  );
 }
 
 export function TableBody({ children }) {
@@ -34,7 +34,7 @@ export function TableRow({ children, className = '' }) {
     <tr className={`group transition-colors hover:bg-panel-raised/60 ${className}`}>
       {children}
     </tr>
-  )
+  );
 }
 
 export function TableCell({ children, align = 'left', className = '' }) {
@@ -45,5 +45,5 @@ export function TableCell({ children, align = 'left', className = '' }) {
     >
       {children}
     </td>
-  )
+  );
 }
