@@ -3,6 +3,7 @@ import { Modal } from '../ui/Modal';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { extractErrorMessage } from '../../api/errors';
+import { documentMask } from '../../utils/DocumentMask';
 
 const EMPTY_FORM = {
   code: '',
@@ -28,15 +29,20 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
             code: customer.code,
             name: customer.name ?? '',
             nickname: customer.nickname ?? '',
-            document: customer.document ?? '',
+            document: documentMask(customer.document ?? ''),
             address: customer.address ?? '',
           }
         : EMPTY_FORM
     )
-  }, [open, isEdit, customer]);
+  }, [open, isEdit, customer])
 
   function handleChange(field) {
     return (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  }
+
+  function handleDocumentChange(event) {
+    const masked = documentMask(event.target.value);
+    setForm((current) => ({ ...current, document: masked }));
   }
 
   async function handleSubmit(event) {
@@ -48,9 +54,9 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
       code: Number(form.code),
       name: form.name,
       nickname: form.nickname,
-      document: form.document,
+      document: form.document.replace(/\D/g, ''),
       address: form.address,
-    };
+    }
 
     try {
       await onSubmit(payload);
@@ -100,7 +106,7 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
             label="Document"
             type="text"
             value={form.document}
-            onChange={handleChange('document')}
+            onChange={handleDocumentChange}
             disabled={submitting}
           />
 
