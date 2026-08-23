@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #0a0c0e;
+  --color-panel: #14181b;
+  --color-panel-raised: #1b2024;
+  --color-hairline: #262c30;
+  --color-hairline-soft: #1d2226;
+
+  --color-text-primary: #e7ebed;
+  --color-text-muted: #8e979e;
+  --color-text-faint: #565e64;
+
+  --color-accent: #2fbfa8;
+  --color-accent-soft: rgba(47, 191, 168, 0.12);
+  --color-warn: #e8a33d;
+  --color-warn-soft: rgba(232, 163, 61, 0.12);
+  --color-danger: #e5484d;
+  --color-danger-soft: rgba(229, 72, 77, 0.12);
+
+  --font-ui: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
