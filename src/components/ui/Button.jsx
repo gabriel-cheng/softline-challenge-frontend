@@ -29,7 +29,7 @@ export function Button({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-1.5 rounded-md border font-medium
+      className={`cursor-pointer inline-flex items-center justify-center gap-1.5 rounded-md border font-medium
         transition-colors duration-150 outline-offset-2
         disabled:opacity-40 disabled:cursor-not-allowed
         ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
