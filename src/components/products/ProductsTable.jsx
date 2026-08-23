@@ -9,7 +9,7 @@ import { LiveIndicator } from '../ui/LiveIndicator';
 import { ProductRow } from './ProductRow';
 import { ProductFormModal } from './ProductFormModal';
 
-const COLUMNS = ['code', 'description', 'bar code', 'gross weight', 'net weight', 'actions'];
+const COLUMNS = ['code', 'description', 'bar code', 'selling price', 'gross weight', 'net weight', 'actions'];
 
 export function ProductsTable() {
   const { products, status, error, deletingCode, refetch, removeProduct, create, update } =
@@ -30,7 +30,7 @@ export function ProductsTable() {
   }
 
   return (
-    <section className="w-full max-w-4xl">
+    <section className="w-full">
       <header className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">

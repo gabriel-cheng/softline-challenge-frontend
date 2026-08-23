@@ -3,7 +3,7 @@ import { Modal } from '../ui/Modal';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { extractErrorMessage } from '../../api/errors';
-import { documentMask } from '../../utils/DocumentMask';
+import { documentMask } from '../../utils/MaskUtils';
 
 const EMPTY_FORM = {
   code: '',

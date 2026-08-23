@@ -1,7 +1,7 @@
 import { TableRow, TableCell } from '../table/Table';
 import { Button } from '../ui/Button';
 import { CodeChip } from '../ui/CodeChip';
-import { documentMask } from '../../utils/DocumentMask';
+import { documentMask } from '../../utils/MaskUtils';
 
 export function CustomersRow({ customer, onEdit, onDelete, isDeleting }) {
   return (
