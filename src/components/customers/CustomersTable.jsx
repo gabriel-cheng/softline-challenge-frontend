@@ -1,40 +1,40 @@
 import { useState } from 'react';
-import { useProducts } from '../../hooks/useProducts';
+import { useCustomers } from '../../hooks/useCustomers';
 import { Table, TableHead, TableHeaderCell, TableBody } from '../table/Table';
 import { TableSkeleton } from '../ui/TableSkeleton';
 import { EmptyState } from '../ui/EmptyState';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Button } from '../ui/Button';
 import { LiveIndicator } from '../ui/LiveIndicator';
-import { ProductRow } from './ProductRow';
-import { ProductFormModal } from './ProductFormModal';
+import { CustomersRow } from './CustomersRow';
+import { CustomerFormModal } from './CustomerFormModal';
 
-const COLUMNS = ['code', 'description', 'bar code', 'gross weight', 'net weight', 'actions'];
+const COLUMNS = ['code', 'name', 'nickname', 'document', 'address', 'actions'];
 
-export function ProductsTable() {
-  const { products, status, error, deletingCode, refetch, removeProduct, create, update } =
-    useProducts();
+export function CustomersTable() {
+  const { customers, status, error, deletingCode, refetch, removeCustomer, create, update } =
+    useCustomers();
 
   const [pendingDelete, setPendingDelete] = useState(null);
-  const [formState, setFormState] = useState({ mode: null, product: null });
+  const [formState, setFormState] = useState({ mode: null, customer: null });
 
   async function handleConfirmDelete() {
-    await removeProduct(pendingDelete.code);
+    await removeCustomer(pendingDelete.code);
     setPendingDelete(null);
   }
 
   function handleFormSubmit(payload) {
     return formState.mode === 'edit'
-      ? update(formState.product.code, payload)
+      ? update(formState.customer.code, payload)
       : create(payload);
   }
 
   return (
-    <section className="w-full max-w-4xl">
+    <section className="w-full">
       <header className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Products
+            Customers
           </h1>
           <LiveIndicator />
         </div>
@@ -44,7 +44,7 @@ export function ProductsTable() {
           </Button>
           <Button
             variant="primary"
-            onClick={() => setFormState({ mode: 'create', product: null })}
+            onClick={() => setFormState({ mode: 'create', customer: null })}
           >
             + create
           </Button>
@@ -62,16 +62,16 @@ export function ProductsTable() {
         <TableBody>
           {status === 'loading' && <TableSkeleton columns={COLUMNS.length} />}
 
-          {status === 'ready' && products.length === 0 && (
+          {status === 'ready' && customers.length === 0 && (
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No products yet"
-                  description="Create your first product to see it listed here."
+                  title="No customers yet"
+                  description="Create your first customer to see it listed here."
                   action={
                     <Button
                       variant="primary"
-                      onClick={() => setFormState({ mode: 'create', product: null })}
+                      onClick={() => setFormState({ mode: 'create', customer: null })}
                     >
                       + create
                     </Button>
@@ -82,13 +82,13 @@ export function ProductsTable() {
           )}
 
           {status === 'ready' &&
-            products.map((product) => (
-              <ProductRow
-                key={product.code}
-                product={product}
-                onEdit={(p) => setFormState({ mode: 'edit', product: p })}
+            customers.map((customer) => (
+              <CustomersRow
+                key={customer.code}
+                customer={customer}
+                onEdit={(c) => setFormState({ mode: 'edit', customer: c })}
                 onDelete={setPendingDelete}
-                isDeleting={deletingCode === product.code}
+                isDeleting={deletingCode === customer.code}
               />
             ))}
         </TableBody>
@@ -96,7 +96,7 @@ export function ProductsTable() {
 
       {status === 'error' && (
         <div className="mt-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger">
-          Couldn't load products{error?.message ? `: ${error.message}` : '.'}{' '}
+          Couldn't load customers{error?.message ? `: ${error.message}` : '.'}{' '}
           <button onClick={refetch} className="underline underline-offset-2 hover:text-text-primary">
             Try again
           </button>
@@ -105,7 +105,7 @@ export function ProductsTable() {
 
       <ConfirmDialog
         open={Boolean(pendingDelete)}
-        title={`Delete product ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
+        title={`Delete customer ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
         description="This action can't be undone."
         confirmLabel="Delete"
         variant="danger"
@@ -114,11 +114,11 @@ export function ProductsTable() {
         onCancel={() => setPendingDelete(null)}
       />
 
-      <ProductFormModal
+      <CustomerFormModal
         open={formState.mode !== null}
         mode={formState.mode}
-        product={formState.product}
-        onClose={() => setFormState({ mode: null, product: null })}
+        customer={formState.customer}
+        onClose={() => setFormState({ mode: null, customer: null })}
         onSubmit={handleFormSubmit}
       />
     </section>

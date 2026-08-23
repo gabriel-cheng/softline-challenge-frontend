@@ -1,28 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
-import { createProduct, deleteProduct, fetchProducts, updateProduct } from '../api/products';
+import { createCustomer, deleteCustomer, fetchCustomers, updateCustomer } from '../api/customers';
 
-export function useProducts() {
-  const [products, setProducts] = useState([]);
+export function useCustomers() {
+  const [customers, setCustomers] = useState([]);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
   const [deletingCode, setDeletingCode] = useState(null);
 
   const load = useCallback(async () => {
-    setStatus((current) => (current === 'ready' ? 'ready' : 'loading'))
-    setError(null)
+    setStatus((current) => (current === 'ready' ? 'ready' : 'loading'));
+    setError(null);
     try {
-      const data = await fetchProducts()
-      setProducts(data)
-      setStatus('ready')
+      const data = await fetchCustomers();
+      setCustomers(data);
+      setStatus('ready');
     } catch (err) {
-      setError(err)
-      setStatus('error')
+      setError(err);
+      setStatus('error');
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     load()
-  }, [load])
+  }, [load]);
 
   useEffect(() => {
     function handleVisibility() {
@@ -32,36 +32,36 @@ export function useProducts() {
     }
     document.addEventListener('visibilitychange', handleVisibility)
     return () => document.removeEventListener('visibilitychange', handleVisibility)
-  }, [load])
+  }, [load]);
 
-  const removeProduct = useCallback(async (code) => {
+  const removeCustomer = useCallback(async (code) => {
     setDeletingCode(code)
     try {
-      await deleteProduct(code)
-      setProducts((current) => current.filter((p) => p.code !== code))
+      await deleteCustomer(code)
+      setCustomers((current) => current.filter((c) => c.code !== code))
     } finally {
       setDeletingCode(null)
     }
   }, []);
 
   const create = useCallback(async (payload) => {
-    await createProduct(payload);
+    await createCustomer(payload);
     await load();
   }, [load]);
 
   const update = useCallback(async (code, payload) => {
-    await updateProduct(code, payload);
+    await updateCustomer(code, payload);
     await load();
   }, [load]);
 
   return {
-    products,
+    customers,
     status,
     error,
     deletingCode,
     refetch: load,
-    removeProduct,
+    removeCustomer,
     create,
     update
-  }
+  };
 }

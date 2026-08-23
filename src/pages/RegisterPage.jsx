@@ -67,7 +67,7 @@ export function RegisterPage() {
 
             <Input
               id="password"
-              label="Password"
+              label="Senha"
               type="password"
               autoComplete="new-password"
               value={password}

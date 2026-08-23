@@ -5,6 +5,17 @@ export async function fetchProducts() {
   return data;
 }
 
+export async function createProduct(product) {
+  const { data } = await apiClient.post('/products', product);
+  return data;
+}
+
+export async function updateProduct(code, product) {
+  const { data } = await apiClient.patch(`/products/${code}`, product);
+  return data;
+}
+
 export async function deleteProduct(code) {
-  await apiClient.delete(`/products/${code}`);
+  const { data } = await apiClient.delete(`/products/${code}`);
+  return data;
 }

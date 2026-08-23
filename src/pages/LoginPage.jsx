@@ -28,9 +28,9 @@ export function LoginPage() {
       navigate(redirectTo, { replace: true });
     } catch (err) {
       if (err.response?.status === 401) {
-        setError('Invalid username or password.');
+        setError('Username ou senha inválidos.');
       } else {
-        setError("Couldn't sign in. Please try again.");
+        setError("Não foi possivel conectar-se. Por favor, tente novamente!");
       }
     } finally {
       setSubmitting(false);
@@ -42,7 +42,7 @@ export function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-6 flex items-center justify-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Sign in
+            Conectar-se
           </h1>
           <LiveIndicator label="secure" />
         </div>
@@ -66,7 +66,7 @@ export function LoginPage() {
 
             <Input
               id="password"
-              label="Password"
+              label="Senha"
               type="password"
               autoComplete="current-password"
               value={password}
@@ -89,7 +89,7 @@ export function LoginPage() {
             loading={submitting}
             className="mt-5 w-full"
           >
-            sign in
+            conectar-se
           </Button>
 
           <p className="mt-4 text-center text-xs text-text-faint">

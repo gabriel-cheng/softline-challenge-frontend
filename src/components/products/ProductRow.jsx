@@ -1,20 +1,20 @@
-import { TableRow, TableCell } from '../table/Table';
-import { Button } from '../ui/Button';
-import { ProductCodeChip } from './ProductCodeChip';
+import { TableRow, TableCell } from '../table/Table'
+import { Button } from '../ui/Button'
+import { CodeChip } from '../ui/CodeChip';
 
 export function ProductRow({ product, onEdit, onDelete, isDeleting }) {
   return (
     <TableRow>
       <TableCell>
-        <ProductCodeChip code={product.code} />
+        <CodeChip code={product.code} />
       </TableCell>
       <TableCell>{product.description}</TableCell>
-      <TableCell className="font-mono text-text-muted">{product.bar_code}</TableCell>
+      <TableCell className="font-mono text-text-muted">{product.barCode}</TableCell>
       <TableCell align="right" className="font-mono">
-        {product.gross_weight}
+        {product.grossWeight}
       </TableCell>
       <TableCell align="right" className="font-mono">
-        {product.net_weight}
+        {product.netWeight}
       </TableCell>
       <TableCell align="center">
         <div className="flex items-center justify-center gap-2">
