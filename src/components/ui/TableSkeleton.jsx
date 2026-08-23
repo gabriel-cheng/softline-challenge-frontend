@@ -11,5 +11,5 @@ export function TableSkeleton({ columns, rows = 4 }) {
         </tr>
       ))}
     </>
-  )
+  );
 }

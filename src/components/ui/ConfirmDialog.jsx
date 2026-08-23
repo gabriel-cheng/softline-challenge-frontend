@@ -1,4 +1,4 @@
-import { Button } from './Button'
+import { Button } from './Button';
 
 export function ConfirmDialog({
   open,
@@ -37,5 +37,5 @@ export function ConfirmDialog({
         </div>
       </div>
     </div>
-  )
+  );
 }

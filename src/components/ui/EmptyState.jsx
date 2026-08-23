@@ -5,5 +5,5 @@ export function EmptyState({ title, description, action }) {
       {description && <p className="max-w-xs text-xs text-text-faint">{description}</p>}
       {action && <div className="mt-3">{action}</div>}
     </div>
-  )
+  );
 }

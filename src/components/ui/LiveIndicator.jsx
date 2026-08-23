@@ -7,5 +7,5 @@ export function LiveIndicator({ label = 'live' }) {
       </span>
       {label}
     </span>
-  )
+  );
 }

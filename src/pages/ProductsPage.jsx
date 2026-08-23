@@ -1,16 +1,16 @@
-import { ProductsTable } from '../components/products/ProductsTable'
-import { Button } from '../components/ui/Button'
-import { useAuth } from '../context/AuthContext'
+import { ProductsTable } from '../components/products/ProductsTable';
+import { Button } from '../components/ui/Button';
+import { useAuth } from '../context/AuthContext';
 
 export function ProductsPage() {
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuth();
 
   function handleCreate() {
-    console.log('navegar para /products/create')
+    console.log('navegar para /products/create');
   }
 
   function handleEdit(product) {
-    console.log('editar produto', product.code)
+    console.log('editar produto', product.code);
   }
 
   return (
@@ -26,5 +26,5 @@ export function ProductsPage() {
 
       <ProductsTable onCreate={handleCreate} onEdit={handleEdit} />
     </main>
-  )
+  );
 }
