@@ -10,37 +10,37 @@ export function AuthProvider({ children }) {
 
   const checkSession = useCallback(async () => {
     try {
-      const data = await fetchCurrentUser()
-      setUser(data)
-      setStatus('authenticated')
+      const data = await fetchCurrentUser();
+      setUser(data);
+      setStatus('authenticated');
     } catch {
-      setUser(null)
-      setStatus('unauthenticated')
+      setUser(null);
+      setStatus('unauthenticated');
     }
   }, []);
 
   useEffect(() => {
-    checkSession()
+    checkSession();
   }, [checkSession])
 
   useEffect(() => {
     function handleUnauthorized() {
-      setUser(null)
-      setStatus('unauthenticated')
+      setUser(null);
+      setStatus('unauthenticated');
     }
-    window.addEventListener(AUTH_EVENT, handleUnauthorized)
-    return () => window.removeEventListener(AUTH_EVENT, handleUnauthorized)
+    window.addEventListener(AUTH_EVENT, handleUnauthorized);
+    return () => window.removeEventListener(AUTH_EVENT, handleUnauthorized);
   }, []);
 
   async function login(username, password) {
-    await apiLogin(username, password)
-    await checkSession()
+    await apiLogin(username, password);
+    await checkSession();
   }
 
   async function logout() {
-    await apiLogout()
-    setUser(null)
-    setStatus('unauthenticated')
+    await apiLogout();
+    setUser(null);
+    setStatus('unauthenticated');
   }
 
   return (
