@@ -5,6 +5,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { LiveIndicator } from '../components/ui/LiveIndicator';
 import { Link } from 'react-router-dom';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
 export function LoginPage() {
   useDocumentTitle('Conectar-se');
