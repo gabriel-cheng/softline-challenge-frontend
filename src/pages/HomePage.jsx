@@ -4,7 +4,7 @@ import { OptionCard } from '../components/home/OptionCard';
 
 export function HomePage() {
   return (
-    <AppLayout>
+    <AppLayout title="Home">
       <h1 className="mb-4 text-sm font-semibold tracking-wide text-text-primary">
         O que você quer gerenciar?
       </h1>

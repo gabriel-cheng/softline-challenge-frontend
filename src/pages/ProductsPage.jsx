@@ -3,7 +3,7 @@ import { ProductsTable } from '../components/products/ProductsTable';
 
 export function ProductsPage() {
   return (
-    <AppLayout maxWidth="max-w-6xl">
+    <AppLayout title="Produtos" maxWidth="max-w-6xl">
       <ProductsTable />
     </AppLayout>
   );

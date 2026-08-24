@@ -6,6 +6,8 @@ import { Button } from '../components/ui/Button';
 import { LiveIndicator } from '../components/ui/LiveIndicator';
 
 export function RegisterPage() {
+  useDocumentTitle('Registrar-se');
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');

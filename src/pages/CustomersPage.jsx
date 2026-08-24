@@ -3,7 +3,7 @@ import { CustomersTable } from '../components/customers/CustomersTable'
 
 export function CustomersPage() {
   return (
-    <AppLayout>
+    <AppLayout title="Clientes">
       <CustomersTable />
     </AppLayout>
   )

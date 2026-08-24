@@ -60,7 +60,7 @@ export function EditUserPage() {
   }
 
   return (
-    <AppLayout maxWidth="max-w-sm">
+    <AppLayout title="Editar Usuário" maxWidth="max-w-sm">
       <h1 className="mb-4 text-sm font-semibold tracking-wide text-text-primary">
         Configurações da conta
       </h1>

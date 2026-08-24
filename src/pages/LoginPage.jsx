@@ -7,6 +7,8 @@ import { LiveIndicator } from '../components/ui/LiveIndicator';
 import { Link } from 'react-router-dom';
 
 export function LoginPage() {
+  useDocumentTitle('Conectar-se');
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

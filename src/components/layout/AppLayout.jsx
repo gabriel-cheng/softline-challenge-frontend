@@ -2,13 +2,16 @@ import { UserRound } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
 const HEADER_MAX_WIDTH = 'max-w-4xl'
 
-export function AppLayout({ children, maxWidth = 'max-w-4xl' }) {
+export function AppLayout({ children, maxWidth = 'max-w-4xl', title }) {
   const { user, logout } = useAuth();
   const location = useLocation();
   const isHome = location.pathname === '/';
+
+  useDocumentTitle(isHome ? undefined : title || 'Soft-Line App');
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-canvas px-6 py-12">
