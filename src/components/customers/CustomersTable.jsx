@@ -34,19 +34,19 @@ export function CustomersTable() {
       <header className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Customers
+            Clientes
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            refresh
+            atualizar
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', customer: null })}
           >
-            + create
+            + criar
           </Button>
         </div>
       </header>
@@ -66,14 +66,14 @@ export function CustomersTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No customers yet"
-                  description="Create your first customer to see it listed here."
+                  title="Nenhum cliente ainda"
+                  description="Registre seu primeiro cliente para vê-lo listado aqui."
                   action={
                     <Button
                       variant="primary"
                       onClick={() => setFormState({ mode: 'create', customer: null })}
                     >
-                      + create
+                      + criar
                     </Button>
                   }
                 />

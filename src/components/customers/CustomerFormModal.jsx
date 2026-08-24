@@ -40,6 +40,11 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
     return (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   }
 
+  function handleCodeChange(event) {
+    const digitsOnly = event.target.value.replace(/\D/g, '')
+    setForm((current) => ({ ...current, code: digitsOnly }))
+  }
+
   function handleDocumentChange(event) {
     const masked = documentMask(event.target.value);
     setForm((current) => ({ ...current, document: masked }));
@@ -75,9 +80,10 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
           <Input
             id="customer-code"
             label="Code"
-            type="number"
+            type="text"
+            inputMode="numeric"
             value={form.code}
-            onChange={handleChange('code')}
+            onChange={handleCodeChange}
             disabled={isEdit || submitting}
             required
           />
@@ -87,6 +93,7 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
             label="Name"
             type="text"
             value={form.name}
+            maxLength={60}
             onChange={handleChange('name')}
             disabled={submitting}
             required
@@ -97,6 +104,7 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
             label="Nickname"
             type="text"
             value={form.nickname}
+            maxLength={100}
             onChange={handleChange('nickname')}
             disabled={submitting}
           />
@@ -115,6 +123,7 @@ export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
             label="Address"
             type="text"
             value={form.address}
+            maxLength={200}
             onChange={handleChange('address')}
             disabled={submitting}
           />

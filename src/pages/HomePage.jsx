@@ -12,13 +12,13 @@ export function HomePage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <OptionCard
           to="/products"
-          title="Products"
+          title="Produtos"
           description="visualiza, cria, atualiza e remove produtos."
           icon={<Package size={18} />}
         />
         <OptionCard
           to="/customers"
-          title="Customers"
+          title="Clientes"
           description="visualiza, cria, atualiza e remove clientes."
           icon={<Users size={18} />}
         />

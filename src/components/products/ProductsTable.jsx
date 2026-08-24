@@ -34,19 +34,19 @@ export function ProductsTable() {
       <header className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Products
+            Produtos
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            refresh
+            atualizar
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', product: null })}
           >
-            + create
+            + criar
           </Button>
         </div>
       </header>
@@ -66,14 +66,14 @@ export function ProductsTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No products yet"
-                  description="Create your first product to see it listed here."
+                  title="Nenhum produto ainda"
+                  description="Registre seu primeiro produto para vê-lo listado aqui."
                   action={
                     <Button
                       variant="primary"
                       onClick={() => setFormState({ mode: 'create', product: null })}
                     >
-                      + create
+                      + criar
                     </Button>
                   }
                 />

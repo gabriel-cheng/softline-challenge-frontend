@@ -1,5 +1,5 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export function ProtectedRoute() {
   const { status } = useAuth();
@@ -14,7 +14,14 @@ export function ProtectedRoute() {
   }
 
   if (status === 'unauthenticated') {
-    return <Navigate to="/login" replace state={{ from: location }} />
+    const shouldRemember = location.pathname !== '/account';
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={shouldRemember ? { from: location } : undefined}
+      />
+    );
   }
 
   return <Outlet />

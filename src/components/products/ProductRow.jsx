@@ -21,14 +21,14 @@ export function ProductRow({ product, onEdit, onDelete, isDeleting }) {
       <TableCell align="center">
         <div className="flex items-center justify-center gap-2">
           <Button variant="warn" onClick={() => onEdit(product)}>
-            update
+            atualizar
           </Button>
           <Button
             variant="danger"
             loading={isDeleting}
             onClick={() => onDelete(product)}
           >
-            delete
+            deletar
           </Button>
         </div>
       </TableCell>

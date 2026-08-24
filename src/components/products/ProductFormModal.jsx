@@ -42,6 +42,11 @@ export function ProductFormModal({ open, mode, product, onClose, onSubmit }) {
     return (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   }
 
+  function handleCodeChange(event) {
+    const digitsOnly = event.target.value.replace(/\D/g, '')
+    setForm((current) => ({ ...current, code: digitsOnly }))
+  }
+
   function handleSellingPriceChange(event) {
     const masked = currencyMask(event.target.value);
     setForm((current) => ({ ...current, sellingPrice: masked }));
@@ -88,10 +93,11 @@ export function ProductFormModal({ open, mode, product, onClose, onSubmit }) {
           <Input
             id="product-code"
             label="Code"
-            type="number"
+            type="text"
+            inputMode="numeric"
             value={form.code}
-            onChange={handleChange('code')}
-            disabled={isEdit}
+            onChange={handleCodeChange}
+            disabled={isEdit || submitting}
             required
           />
 
@@ -100,6 +106,7 @@ export function ProductFormModal({ open, mode, product, onClose, onSubmit }) {
             label="Description"
             type="text"
             value={form.description}
+            maxLength={60}
             onChange={handleChange('description')}
             disabled={submitting}
             required
@@ -110,6 +117,7 @@ export function ProductFormModal({ open, mode, product, onClose, onSubmit }) {
             label="Bar code"
             type="text"
             value={form.barCode}
+            maxLength={14}
             onChange={handleChange('barCode')}
             disabled={submitting}
           />
