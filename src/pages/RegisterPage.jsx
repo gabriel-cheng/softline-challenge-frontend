@@ -4,7 +4,7 @@ import { registerUser } from '../api/users';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { LiveIndicator } from '../components/ui/LiveIndicator';
-import { useDocumentTitle } from '../../hooks/useDocumentTitle'
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 export function RegisterPage() {
   useDocumentTitle('Registrar-se');
