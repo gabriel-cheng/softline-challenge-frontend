@@ -1,49 +1,152 @@
-# Products Frontend
+# Soft-Line Code Challenge — Frontend
 
-Tela de listagem de produtos (`/products`), em React + Vite + Tailwind CSS v4,
-consumindo a API Spring Boot (`GET /products`, `DELETE /products/{code}`).
+> Frontend do desafio técnico para Desenvolvedor Pleno da Soft-Line Sistemas, em React + Vite + Tailwind CSS v4, consumindo a API Spring Boot do desafio.
 
-## Como rodar
+## 🌐 Aplicação em Produção
+
+Acesse: [https://ghcarvalho.com.br](https://ghcarvalho.com.br)
+
+## 🚀 How to Run This Project
+
+Você pode rodar o projeto de duas formas: **localmente** (Node.js instalado na sua máquina) ou via **Docker Compose** (sobe frontend, backend e banco de dados automaticamente).
+
+---
+
+### 🖥️ Opção 1 — Rodando localmente
+
+#### 📋 Requisitos
+
+- 🟢 **Node.js 18+** — [Download](https://nodejs.org/)
+- 💻 **Git** — [Download](https://git-scm.com/downloads)
+- A **API backend** rodando (veja o README do repositório do backend)
+
+#### ⚙️ Configuração
+
+1. Clonando o repositório:
 
 ```bash
+git clone http://github.com/gabriel-cheng/softline-challenge-frontend
+cd softline-challenge-frontend
+```
+
+2. Configurando o `.env`
+> - Copie e cole o arquivo `.env.example` na raíz do projeto <br>
+> - Nomeie o arquivo copiado para `.env` <br>
+> - Ajuste `VITE_API_URL` caso sua API não esteja rodando em `localhost:8080`
+
+```env
+VITE_API_URL=http://localhost:8080
+```
+
+3. Instalando as dependências
+> - Na raíz do projeto, rode o seguinte comando e aguarde a instalação das dependências:
+```bash
 npm install
-cp .env.example .env   # ajuste VITE_API_URL se sua API não estiver em localhost:8080
+```
+
+4. Rodando o projeto
+```bash
 npm run dev
 ```
 
-Abra http://localhost:5173
+A aplicação sobe em `http://localhost:5173`.
 
-## Autenticação
+---
 
-O cliente HTTP (`src/api/client.js`) usa `withCredentials: true`, pois a API
-autentica via cookie `HttpOnly`. Certifique-se de que o CORS do backend
-Spring permite o domínio do front (`Access-Control-Allow-Origin` específico,
-não `*`, já que cookies exigem origem explícita) e `Access-Control-Allow-Credentials: true`.
+### 🐳 Opção 2 — Rodando com Docker Compose
 
-## Estrutura
+#### 📋 Requisitos
+
+- 🐳 **Docker** e **Docker Compose** — [Download](https://www.docker.com/products/docker-desktop/)
+- 💻 **Git** — [Download](https://git-scm.com/downloads)
+
+#### ⚙️ Configuração
+
+1. Clonando o repositório:
+
+```bash
+git clone http://github.com/gabriel-cheng/softline-challenge-frontend
+cd softline-challenge-frontend
+```
+
+2. Suba todos os serviços (SQL Server, backend, frontend e proxy Nginx):
+
+```bash
+docker compose up --build
+```
+
+O Docker Compose já cria o container do SQL Server, aguarda ele ficar saudável (healthcheck) e só então inicia o backend e o frontend, evitando erros de conexão prematura.
+
+3. Acesse a aplicação em `http://localhost`.
+
+> A variável de ambiente (`VITE_API_URL`) já vem configurada no `docker-compose.yml` para o ambiente local. Ajuste o valor diretamente nesse arquivo se precisar.
+
+---
+
+### ☸️ Deploy em Produção (Kubernetes)
+
+Em produção, a aplicação roda em um cluster **k3s**, com:
+
+- **Traefik** como Ingress Controller, roteando `/api` para o backend e `/` para o frontend
+- **cert-manager** gerenciando certificados TLS via Let's Encrypt
+- Variáveis de ambiente injetadas via `Secret` (`softline-secrets`) e lidas em build/runtime pelo pod
+
+Os manifests (`Deployment`, `Service`, `Ingress`, `Middleware`) estão disponíveis na pasta `k8s/` do repositório.
+
+---
+
+## 🔐 Autenticação
+
+O cliente HTTP (`src/api/client.js`) usa `withCredentials: true`, pois a API autentica via cookie `HttpOnly` (`auth_token`). Certifique-se de que o CORS do backend Spring permite o domínio do front (`Access-Control-Allow-Origin` específico, não `*`, já que cookies exigem origem explícita) e `Access-Control-Allow-Credentials: true`.
+
+O fluxo de sessão é gerenciado pelo `AuthContext` (`src/context/AuthContext.jsx`), que:
+- Verifica a sessão atual em `GET /users/me` ao carregar a aplicação
+- Escuta um evento global (`AUTH_EVENT`) disparado pelo cliente HTTP quando uma requisição retorna `401`, deslogando o usuário automaticamente
+- Expõe `login`, `logout` e `refresh` via o hook `useAuth()`
+
+Rotas privadas são protegidas pelo componente `ProtectedRoute` (`src/components/auth/ProtectedRoute.jsx`), que redireciona para `/login` quando não há sessão válida.
+
+## 🗂️ Estrutura
 
 ```
 src/
-  api/            -> chamadas HTTP (client.js = instância axios, products.js = endpoints)
-  hooks/          -> useProducts: estado, fetch, delete, refetch automático
+  api/              -> chamadas HTTP (client.js = instância axios, auth.js, users.js, products.js, customers.js)
+  context/          -> AuthContext (sessão, login, logout)
+  hooks/            -> useProducts, useCustomers: estado, fetch, create, update, delete, refetch automático
+  utils/            -> MaskUtils.js (máscaras de documento, moeda, peso)
   components/
-    ui/           -> Button, ConfirmDialog, EmptyState, TableSkeleton, LiveIndicator
-                     (genéricos, reutilizáveis em qualquer tela)
-    table/        -> Table, TableRow, TableCell, etc. (primitivas de tabela genéricas)
-    products/     -> ProductsTable, ProductRow, ProductCodeChip (específicos de produto)
+    ui/             -> Button, Input, Modal, ConfirmDialog, EmptyState, TableSkeleton, LiveIndicator, CodeChip
+                       (genéricos, reutilizáveis em qualquer tela)
+    table/          -> Table, TableRow, TableCell, etc. (primitivas de tabela genéricas)
+    layout/         -> AppLayout (layout compartilhado entre as páginas autenticadas)
+    auth/           -> ProtectedRoute
+    products/       -> ProductsTable, ProductRow, ProductFormModal, ProductCodeChip
+    customers/      -> CustomersTable, CustomersRow, CustomerFormModal
+    home/           -> OptionCard
   pages/
-    ProductsPage.jsx -> tela /products
+    LoginPage.jsx        -> tela /login
+    RegisterPage.jsx     -> tela /register
+    HomePage.jsx          -> tela / (escolha entre Produtos e Clientes)
+    ProductsPage.jsx      -> tela /products
+    CustomersPage.jsx     -> tela /customers
+    EditUserPage.jsx      -> tela /account (configurações da conta)
 ```
 
-## Reaproveitando em outras telas (Customers, Users)
+## 🖼️ Telas
 
-- `components/ui/*` e `components/table/*` não têm nada específico de produto —
-  são a base para montar as tabelas de `Customers` e `Users` do mesmo jeito.
-- Basta criar `components/customers/CustomersTable.jsx` seguindo o mesmo padrão
-  de `ProductsTable.jsx`, e um hook `useCustomers` espelhando `useProducts.js`.
+- **`/login`** e **`/register`** — autenticação e cadastro de usuário
+- **`/`** — homepage, com atalhos para Produtos e Clientes
+- **`/products`** — listagem, criação, edição e remoção de produtos do usuário autenticado
+- **`/customers`** — listagem, criação, edição e remoção de clientes do usuário autenticado
+- **`/account`** — atualização de username e senha do usuário autenticado
 
-## Próximos passos (fora do escopo desta entrega)
+## 🔑 Integração com a API
 
-- Telas de criação (`/products/create`) e edição — os callbacks `onCreate` e
-  `onEdit` em `ProductsPage.jsx` já estão prontos para receber navegação
-  (ex: react-router) quando essas telas existirem.
+Consome os seguintes endpoints da API Spring Boot (veja o README do backend para detalhes completos de payload):
+
+- `POST /auth/login`, `POST /auth/logout`
+- `POST /users`, `GET /users/me`, `PATCH /users/me`
+- `GET /products`, `POST /products`, `PATCH /products/{code}`, `DELETE /products/{code}`
+- `GET /customers`, `POST /customers`, `PATCH /customers/{code}`, `DELETE /customers/{code}`
+
+Rotas de `products` e `customers` retornam e afetam apenas os registros pertencentes ao usuário autenticado.
