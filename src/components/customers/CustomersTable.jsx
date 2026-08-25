@@ -8,7 +8,7 @@ import { Button } from '../ui/Button';
 import { LiveIndicator } from '../ui/LiveIndicator';
 import { SearchInput } from '../ui/SearchInput';
 import { CustomersRow } from './CustomersRow';
-import { CustomerFormModal } from './CustomerFormModal';
+import { CustomersFormModal } from './CustomersFormModal';
 import { filterItems } from '../../utils/filterUtils';
 
 const COLUMNS = ['code', 'name', 'nickname', 'document', 'address', 'actions'];
@@ -147,7 +147,7 @@ export function CustomersTable() {
         onCancel={() => setPendingDelete(null)}
       />
 
-      <CustomerFormModal
+      <CustomersFormModal
         open={formState.mode !== null}
         mode={formState.mode}
         customer={formState.customer}

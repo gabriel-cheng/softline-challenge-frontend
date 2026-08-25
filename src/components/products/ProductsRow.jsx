@@ -3,7 +3,7 @@ import { Button } from '../ui/Button'
 import { CodeChip } from '../ui/CodeChip';
 import { formatCurrencyDisplay, formatWeightDisplay } from '../../utils/MaskUtils';
 
-export function ProductRow({ product, onEdit, onDelete, isDeleting }) {
+export function ProductsRow({ product, onEdit, onDelete, isDeleting }) {
   return (
     <TableRow>
       <TableCell>

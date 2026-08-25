@@ -14,7 +14,7 @@ const EMPTY_FORM = {
   netWeight: ''
 };
 
-export function ProductFormModal({ open, mode, product, onClose, onSubmit }) {
+export function ProductsFormModal({ open, mode, product, onClose, onSubmit }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);

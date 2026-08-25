@@ -13,7 +13,7 @@ const EMPTY_FORM = {
   address: '',
 };
 
-export function CustomerFormModal({ open, mode, customer, onClose, onSubmit }) {
+export function CustomersFormModal({ open, mode, customer, onClose, onSubmit }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);

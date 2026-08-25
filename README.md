@@ -120,8 +120,8 @@ src/
     table/          -> Table, TableRow, TableCell, etc. (primitivas de tabela genéricas)
     layout/         -> AppLayout (layout compartilhado entre as páginas autenticadas)
     auth/           -> ProtectedRoute
-    products/       -> ProductsTable, ProductRow, ProductFormModal, ProductCodeChip
-    customers/      -> CustomersTable, CustomersRow, CustomerFormModal
+    products/       -> ProductsTable, ProductsRow, ProductsFormModal, ProductsCodeChip
+    customers/      -> CustomersTable, CustomersRow, CustomersFormModal
     home/           -> OptionCard
   pages/
     LoginPage.jsx        -> tela /login
