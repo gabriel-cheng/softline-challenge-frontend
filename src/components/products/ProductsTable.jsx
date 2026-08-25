@@ -7,8 +7,8 @@ import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Button } from '../ui/Button';
 import { LiveIndicator } from '../ui/LiveIndicator';
 import { SearchInput } from '../ui/SearchInput';
-import { ProductRow } from './ProductRow';
-import { ProductFormModal } from './ProductFormModal';
+import { ProductsRow } from './ProductsRow';
+import { ProductsFormModal } from './ProductsFormModal';
 import { filterItems } from '../../utils/filterUtils';
 
 const COLUMNS = ['code', 'description', 'bar code', 'selling price', 'gross weight', 'net weight', 'actions'];
@@ -110,7 +110,7 @@ export function ProductsTable() {
 
           {status === 'ready' &&
             filteredProducts.map((product) => (
-              <ProductRow
+              <ProductsRow
                 key={product.code}
                 product={product}
                 onEdit={(p) => setFormState({ mode: 'edit', product: p })}
@@ -147,7 +147,7 @@ export function ProductsTable() {
         onCancel={() => setPendingDelete(null)}
       />
 
-      <ProductFormModal
+      <ProductsFormModal
         open={formState.mode !== null}
         mode={formState.mode}
         product={formState.product}
