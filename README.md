@@ -6,7 +6,7 @@
 
 Acesse: [https://ghcarvalho.com.br](https://ghcarvalho.com.br)
 
-## 🚀 How to Run This Project
+## 🚀 Como rodar este projeto
 
 Você pode rodar o projeto de duas formas: **localmente** (Node.js instalado na sua máquina) ou via **Docker Compose** (sobe frontend, backend e banco de dados automaticamente).
 
