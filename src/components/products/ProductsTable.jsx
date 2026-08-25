@@ -42,19 +42,19 @@ export function ProductsTable() {
       <header className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Products
+            Produtos
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            refresh
+            atualizar
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', product: null })}
           >
-            + create
+            + criar
           </Button>
         </div>
       </header>
@@ -63,7 +63,7 @@ export function ProductsTable() {
         <SearchInput
           value={search}
           onChange={setSearch}
-          placeholder="Search by code, description or bar code..."
+          placeholder="code, description ou bar code"
         />
       </div>
 
@@ -82,14 +82,14 @@ export function ProductsTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No products yet"
-                  description="Create your first product to see it listed here."
+                  title="Não há produtos"
+                  description="Crie seu primeiro produto para vê-lo listado aqui."
                   action={
                     <Button
                       variant="primary"
                       onClick={() => setFormState({ mode: 'create', product: null })}
                     >
-                      + create
+                      + criar
                     </Button>
                   }
                 />
@@ -101,8 +101,8 @@ export function ProductsTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No matches"
-                  description={`Nothing matches "${search}". Try a different search.`}
+                  title="Nada encontrado"
+                  description={`Não há resultados para "${search}". Tente uma busca diferente.`}
                 />
               </td>
             </tr>
@@ -129,17 +129,17 @@ export function ProductsTable() {
 
       {status === 'error' && (
         <div className="mt-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger">
-          Couldn't load products{error?.message ? `: ${error.message}` : '.'}{' '}
+          Não foi possível carregar os produtos{error?.message ? `: ${error.message}` : '.'}{' '}
           <button onClick={refetch} className="underline underline-offset-2 hover:text-text-primary">
-            Try again
+            Tente novamente
           </button>
         </div>
       )}
 
       <ConfirmDialog
         open={Boolean(pendingDelete)}
-        title={`Delete product ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
-        description="This action can't be undone."
+        title={`Deletar produto ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
+        description="Esta ação não poderá ser desfeita."
         confirmLabel="Delete"
         variant="danger"
         loading={deletingCode === pendingDelete?.code}

@@ -13,7 +13,7 @@ import { filterItems } from '../../utils/filterUtils';
 
 const COLUMNS = ['code', 'name', 'nickname', 'document', 'address', 'actions'];
 
-const SEARCH_FIELDS = ['code', 'name', 'nickname'];
+const SEARCH_FIELDS = ['code', 'name', 'nickname', 'document'];
 
 export function CustomersTable() {
   const { customers, status, error, deletingCode, refetch, removeCustomer, create, update } =
@@ -42,19 +42,19 @@ export function CustomersTable() {
       <header className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Customers
+            Clientes
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            refresh
+            atualizar
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', customer: null })}
           >
-            + create
+            + criar
           </Button>
         </div>
       </header>
@@ -63,7 +63,7 @@ export function CustomersTable() {
         <SearchInput
           value={search}
           onChange={setSearch}
-          placeholder="Search by code, name or nickname..."
+          placeholder="code, name, nickname ou document"
         />
       </div>
 
@@ -82,8 +82,8 @@ export function CustomersTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No customers yet"
-                  description="Create your first customer to see it listed here."
+                  title="Nenhum cliente encontrado"
+                  description="Crie seu primeiro cliente clicando no botão abaixo."
                   action={
                     <Button
                       variant="primary"
@@ -101,8 +101,8 @@ export function CustomersTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="No matches"
-                  description={`Nothing matches "${search}". Try a different search.`}
+                  title="Nada encontrado"
+                  description={`Não há resultados para "${search}". Tente uma busca diferente.`}
                 />
               </td>
             </tr>
@@ -129,17 +129,17 @@ export function CustomersTable() {
 
       {status === 'error' && (
         <div className="mt-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger">
-          Couldn't load customers{error?.message ? `: ${error.message}` : '.'}{' '}
+          Não foi possível carregar os clientes{error?.message ? `: ${error.message}` : '.'}{' '}
           <button onClick={refetch} className="underline underline-offset-2 hover:text-text-primary">
-            Try again
+            Tente novamente
           </button>
         </div>
       )}
 
       <ConfirmDialog
         open={Boolean(pendingDelete)}
-        title={`Delete customer ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
-        description="This action can't be undone."
+        title={`Deletar cliente ${pendingDelete ? String(pendingDelete.code).padStart(3, '0') : ''}?`}
+        description="Esta ação não poderá ser desfeita."
         confirmLabel="Delete"
         variant="danger"
         loading={deletingCode === pendingDelete?.code}
