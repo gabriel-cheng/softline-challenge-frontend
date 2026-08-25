@@ -6,10 +6,14 @@ import { EmptyState } from '../ui/EmptyState';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Button } from '../ui/Button';
 import { LiveIndicator } from '../ui/LiveIndicator';
+import { SearchInput } from '../ui/SearchInput';
 import { ProductRow } from './ProductRow';
 import { ProductFormModal } from './ProductFormModal';
+import { filterItems } from '../../utils/filterUtils';
 
 const COLUMNS = ['code', 'description', 'bar code', 'selling price', 'gross weight', 'net weight', 'actions'];
+
+const SEARCH_FIELDS = ['code', 'description', 'barCode'];
 
 export function ProductsTable() {
   const { products, status, error, deletingCode, refetch, removeProduct, create, update } =
@@ -17,6 +21,10 @@ export function ProductsTable() {
 
   const [pendingDelete, setPendingDelete] = useState(null);
   const [formState, setFormState] = useState({ mode: null, product: null });
+  const [search, setSearch] = useState('');
+
+  const filteredProducts = filterItems(products, search, SEARCH_FIELDS);
+  const isSearching = search.trim().length > 0;
 
   async function handleConfirmDelete() {
     await removeProduct(pendingDelete.code);
@@ -31,25 +39,33 @@ export function ProductsTable() {
 
   return (
     <section className="w-full">
-      <header className="mb-3 flex items-center justify-between">
+      <header className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Produtos
+            Products
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            atualizar
+            refresh
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', product: null })}
           >
-            + criar
+            + create
           </Button>
         </div>
       </header>
+
+      <div className="mb-3">
+        <SearchInput
+          value={search}
+          onChange={setSearch}
+          placeholder="Search by code, description or bar code..."
+        />
+      </div>
 
       <Table>
         <TableHead>
@@ -66,14 +82,14 @@ export function ProductsTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="Nenhum produto ainda"
-                  description="Registre seu primeiro produto para vê-lo listado aqui."
+                  title="No products yet"
+                  description="Create your first product to see it listed here."
                   action={
                     <Button
                       variant="primary"
                       onClick={() => setFormState({ mode: 'create', product: null })}
                     >
-                      + criar
+                      + create
                     </Button>
                   }
                 />
@@ -81,8 +97,19 @@ export function ProductsTable() {
             </tr>
           )}
 
+          {status === 'ready' && products.length > 0 && filteredProducts.length === 0 && (
+            <tr>
+              <td colSpan={COLUMNS.length}>
+                <EmptyState
+                  title="No matches"
+                  description={`Nothing matches "${search}". Try a different search.`}
+                />
+              </td>
+            </tr>
+          )}
+
           {status === 'ready' &&
-            products.map((product) => (
+            filteredProducts.map((product) => (
               <ProductRow
                 key={product.code}
                 product={product}
@@ -93,6 +120,12 @@ export function ProductsTable() {
             ))}
         </TableBody>
       </Table>
+
+      {status === 'ready' && isSearching && (
+        <p className="mt-2 text-xs text-text-faint">
+          {filteredProducts.length} of {products.length} products
+        </p>
+      )}
 
       {status === 'error' && (
         <div className="mt-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger">

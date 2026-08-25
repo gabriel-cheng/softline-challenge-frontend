@@ -6,10 +6,14 @@ import { EmptyState } from '../ui/EmptyState';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Button } from '../ui/Button';
 import { LiveIndicator } from '../ui/LiveIndicator';
+import { SearchInput } from '../ui/SearchInput';
 import { CustomersRow } from './CustomersRow';
 import { CustomerFormModal } from './CustomerFormModal';
+import { filterItems } from '../../utils/filterUtils';
 
 const COLUMNS = ['code', 'name', 'nickname', 'document', 'address', 'actions'];
+
+const SEARCH_FIELDS = ['code', 'name', 'nickname'];
 
 export function CustomersTable() {
   const { customers, status, error, deletingCode, refetch, removeCustomer, create, update } =
@@ -17,6 +21,10 @@ export function CustomersTable() {
 
   const [pendingDelete, setPendingDelete] = useState(null);
   const [formState, setFormState] = useState({ mode: null, customer: null });
+  const [search, setSearch] = useState('');
+
+  const filteredCustomers = filterItems(customers, search, SEARCH_FIELDS);
+  const isSearching = search.trim().length > 0;
 
   async function handleConfirmDelete() {
     await removeCustomer(pendingDelete.code);
@@ -31,25 +39,33 @@ export function CustomersTable() {
 
   return (
     <section className="w-full">
-      <header className="mb-3 flex items-center justify-between">
+      <header className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="text-sm font-semibold tracking-wide text-text-primary">
-            Clientes
+            Customers
           </h1>
           <LiveIndicator />
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={refetch}>
-            atualizar
+            refresh
           </Button>
           <Button
             variant="primary"
             onClick={() => setFormState({ mode: 'create', customer: null })}
           >
-            + criar
+            + create
           </Button>
         </div>
       </header>
+
+      <div className="mb-3">
+        <SearchInput
+          value={search}
+          onChange={setSearch}
+          placeholder="Search by code, name or nickname..."
+        />
+      </div>
 
       <Table>
         <TableHead>
@@ -66,14 +82,14 @@ export function CustomersTable() {
             <tr>
               <td colSpan={COLUMNS.length}>
                 <EmptyState
-                  title="Nenhum cliente ainda"
-                  description="Registre seu primeiro cliente para vê-lo listado aqui."
+                  title="No customers yet"
+                  description="Create your first customer to see it listed here."
                   action={
                     <Button
                       variant="primary"
                       onClick={() => setFormState({ mode: 'create', customer: null })}
                     >
-                      + criar
+                      + create
                     </Button>
                   }
                 />
@@ -81,8 +97,19 @@ export function CustomersTable() {
             </tr>
           )}
 
+          {status === 'ready' && customers.length > 0 && filteredCustomers.length === 0 && (
+            <tr>
+              <td colSpan={COLUMNS.length}>
+                <EmptyState
+                  title="No matches"
+                  description={`Nothing matches "${search}". Try a different search.`}
+                />
+              </td>
+            </tr>
+          )}
+
           {status === 'ready' &&
-            customers.map((customer) => (
+            filteredCustomers.map((customer) => (
               <CustomersRow
                 key={customer.code}
                 customer={customer}
@@ -93,6 +120,12 @@ export function CustomersTable() {
             ))}
         </TableBody>
       </Table>
+
+      {status === 'ready' && isSearching && (
+        <p className="mt-2 text-xs text-text-faint">
+          {filteredCustomers.length} of {customers.length} customers
+        </p>
+      )}
 
       {status === 'error' && (
         <div className="mt-4 rounded-lg border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger">
