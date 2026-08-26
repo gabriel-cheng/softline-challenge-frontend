@@ -55,31 +55,7 @@ A aplicação sobe em `http://localhost:5173`.
 
 ### 🐳 Opção 2 — Rodando com Docker Compose
 
-#### 📋 Requisitos
-
-- 🐳 **Docker** e **Docker Compose** — [Download](https://www.docker.com/products/docker-desktop/)
-- 💻 **Git** — [Download](https://git-scm.com/downloads)
-
-#### ⚙️ Configuração
-
-1. Clonando o repositório:
-
-```bash
-git clone http://github.com/gabriel-cheng/softline-challenge-frontend
-cd softline-challenge-frontend
-```
-
-2. Suba todos os serviços (SQL Server, backend, frontend e proxy Nginx):
-
-```bash
-docker compose up --build
-```
-
-O Docker Compose já cria o container do SQL Server, aguarda ele ficar saudável (healthcheck) e só então inicia o backend e o frontend, evitando erros de conexão prematura.
-
-3. Acesse a aplicação em `http://localhost`.
-
-> A variável de ambiente (`VITE_API_URL`) já vem configurada no `docker-compose.yml` para o ambiente local. Ajuste o valor diretamente nesse arquivo se precisar.
+Acesse a documentação do backend para rodar a aplicação completa pelo compose.
 
 ---
 
