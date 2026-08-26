@@ -4,6 +4,7 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { extractErrorMessage } from '../../api/errors';
 import { documentMask } from '../../utils/MaskUtils';
+import { isValidDocument } from '../../utils/documentValidator';
 
 const EMPTY_FORM = {
   code: '',
@@ -51,9 +52,15 @@ export function CustomersFormModal({ open, mode, customer, onClose, onSubmit }) 
   }
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    setError(null);
-    setSubmitting(true);
+    event.preventDefault()
+    setError(null)
+
+    if (form.document && !isValidDocument(form.document)) {
+      setError('Invalid CPF/CNPJ.')
+      return
+    }
+
+    setSubmitting(true)
 
     const payload = {
       code: Number(form.code),
@@ -64,12 +71,12 @@ export function CustomersFormModal({ open, mode, customer, onClose, onSubmit }) 
     }
 
     try {
-      await onSubmit(payload);
-      onClose();
+      await onSubmit(payload)
+      onClose()
     } catch (err) {
-      setError(extractErrorMessage(err));
+      setError(extractErrorMessage(err))
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
   }
 
@@ -82,6 +89,7 @@ export function CustomersFormModal({ open, mode, customer, onClose, onSubmit }) 
             label="Code"
             type="text"
             inputMode="numeric"
+            maxLength={10}
             value={form.code}
             onChange={handleCodeChange}
             disabled={isEdit || submitting}

@@ -95,6 +95,7 @@ export function ProductsFormModal({ open, mode, product, onClose, onSubmit }) {
             label="Code"
             type="text"
             inputMode="numeric"
+            maxLength={10}
             value={form.code}
             onChange={handleCodeChange}
             disabled={isEdit || submitting}
